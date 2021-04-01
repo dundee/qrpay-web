@@ -21,4 +21,4 @@ Supports [Short Payment Descriptor](https://en.wikipedia.org/wiki/Short_Payment_
 * Fill in payment details and submit.
 * See the result QR code.
 
-[![Screenshot](./screenshot.png)]
+![Screenshot](./screenshot.png)
