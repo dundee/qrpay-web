@@ -1,4 +1,4 @@
-module github.com/dundee/qrcode-payment-web
+module github.com/dundee/qrpay
 
 go 1.16
 

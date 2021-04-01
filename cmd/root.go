@@ -6,7 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/dundee/qrcode-payment-web/web"
+	"github.com/dundee/qrpay/web"
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/viper"
 )
