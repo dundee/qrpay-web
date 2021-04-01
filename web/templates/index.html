@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Payment QR code Generator</title>
+    <link rel=stylesheet href="/static/bootstrap.min.css" />
+    <link rel=stylesheet href="/static/style.css" />
+</head>
+<body>
+	<h1>Payment QR code generator</h1>
+
+	<div class="container">
+		<form action="/" name=f method="GET">
+			<div class="row mb-3">
+				<label class="col-sm-2 col-form-label" for="iban">IBAN:</label>
+				<div class="col-sm-10">
+					<input class="form-control" name=iban value="{{.IBAN}}" title="IBAN">
+				</div>
+			</div>
+			<div class="row mb-3">
+				<label class="col-sm-2 col-form-label" for="bic">BIC:</label>
+				<div class="col-sm-10">
+					<input class="form-control" name=bic value="{{.BIC}}" title="BIC">
+				</div>
+			</div>
+			<div class="row mb-3">
+				<label class="col-sm-2 col-form-label" for="amount">Amount:</label>
+				<div class="col-sm-10">
+					<input class="form-control" name=amount value="{{.Amount}}" title="amount">
+				</div>
+			</div>
+			<div class="row mb-3">
+				<label class="col-sm-2 col-form-label" for="message">Message:</label>
+				<div class="col-sm-10">
+					<input class="form-control" name=message value="{{.Message}}" title="message">
+				</div>
+			</div>
+			<div class="row mb-3">
+				<label class="col-sm-2 col-form-label" for="recipient">Recipient name:</label>
+				<div class="col-sm-10">
+					<input class="form-control" name=recipient value="{{.Recipient}}" title="recipient">
+				</div>
+			</div>
+			<button name="qr" type="submit" class="btn btn-primary">Generate QR code</button>
+		</form>
+
+		{{if .Image}}
+		<img src="data:image/png;base64, {{.Image}}" />
+		{{.Content}}
+		{{end}}
+	</div>
+
+</body>
+</html>
