@@ -11,14 +11,14 @@ Supports [Short Payment Descriptor](https://en.wikipedia.org/wiki/Short_Payment_
 
 ## Usage
 
-* Start the QR code generator:
+1. Start the QR code generator:
 
     $ ./qrcode-payment-web
     2021/04/02 00:41:01 using embed mode
     2021/04/02 00:41:01 Listening on 127.0.0.1:8080
 
-* Open `127.0.0.1:8080` in your web broswer.
-* Fill in payment details and submit.
-* See the result QR code.
+1. Open `127.0.0.1:8080` in your web broswer.
+1. Fill in payment details and submit.
+1. See the result QR code.
 
 ![Screenshot](./screenshot.png)
