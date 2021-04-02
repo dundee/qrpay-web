@@ -25,6 +25,9 @@ build-all:
 
 	cd dist; for file in qrpay_linux_* qrpay_darwin_* ; do tar czf $$file.tgz $$file; done
 
+run:
+	go run -tags live .
+
 clean:
 	-rm -r dist
 

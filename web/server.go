@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	payment "github.com/dundee/go-qrcode-payment"
+	common "github.com/dundee/go-qrcode-payment/common"
 )
 
 func RunServer(addr string) {
@@ -33,20 +34,28 @@ type TemplateVars struct {
 	Message   string
 	Recipient string
 	Amount    string
+	Errors    map[string]error
+	IsSpayd   bool
+	IsEpc     bool
 }
 
 func QR(w http.ResponseWriter, req *http.Request) {
-	defer func() {
-		if err := recover(); err != nil {
-			w.Write([]byte(err.(error).Error()))
-		}
-	}()
+	var (
+		qr      string
+		content string
+		err     error
+		errors  map[string]error
+	)
 
-	var qr string
-	var content string
 	if req.FormValue("iban") != "" {
 
-		p := payment.NewSpaydPayment()
+		var p common.Payment
+		if req.FormValue("format") == "spayd" {
+			p = payment.NewSpaydPayment()
+		} else {
+			p = payment.NewEpcPayment()
+		}
+
 		p.SetIBAN(req.FormValue("iban"))
 		p.SetMessage(req.FormValue("message"))
 		p.SetRecipientName(req.FormValue("recipient"))
@@ -56,12 +65,26 @@ func QR(w http.ResponseWriter, req *http.Request) {
 			p.SetBIC(req.FormValue("bic"))
 		}
 
-		image, _ := payment.GetQRCodeImage(p)
-		qr = base64.StdEncoding.EncodeToString(image)
-		content, _ = p.GenerateString()
+		errors = p.GetErrors()
+		if len(errors) > 0 {
+			qr = ""
+			content = ""
+		} else {
+			content, err = p.GenerateString()
+			if err != nil {
+				errors["generate-string"] = err
+			} else {
+				image, err := payment.GetQRCodeImage(p)
+				if err != nil {
+					errors["generate-qr"] = err
+				}
+				qr = base64.StdEncoding.EncodeToString(image)
+			}
+		}
 	}
+
 	var templ = template.Must(template.ParseFiles("web/templates/index.html"))
-	err := templ.Execute(
+	err = templ.Execute(
 		w,
 		TemplateVars{
 			Image:     qr,
@@ -71,6 +94,9 @@ func QR(w http.ResponseWriter, req *http.Request) {
 			Message:   req.FormValue("message"),
 			Recipient: req.FormValue("recipient"),
 			Content:   content,
+			Errors:    errors,
+			IsSpayd:   req.FormValue("format") == "spayd",
+			IsEpc:     req.FormValue("format") == "epc",
 		},
 	)
 	if err != nil {

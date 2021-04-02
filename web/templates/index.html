@@ -11,7 +11,24 @@
 	<h1>Payment QR code generator</h1>
 
 	<div class="container">
+
+		{{range $err := .Errors}}
+		<div class="alert alert-danger" role="alert">
+			{{$err}}
+		</div>
+		{{end}}
+
 		<form action="/" name=f method="GET">
+			<div class="row mb-3">
+				<label class="col-sm-2 col-form-label" for="iban">Format:</label>
+				<div class="col-sm-10">
+					<select name="format" class="form-select" aria-label="Payment format">
+						<option {{if .IsSpayd}}selected{{end}} value="spayd">Short Payment Descriptor (CZ, SK)</option>
+						<option {{if .IsEpc}}selected{{end}} value="epc">EPC / SEPA (EU)</option>
+					</select>
+				</div>
+			</div>
+
 			<div class="row mb-3">
 				<label class="col-sm-2 col-form-label" for="iban">IBAN:</label>
 				<div class="col-sm-10">
@@ -46,8 +63,13 @@
 		</form>
 
 		{{if .Image}}
-		<img src="data:image/png;base64, {{.Image}}" />
-		{{.Content}}
+		<div class="row mt-5">
+			<img class="col-sm-4 img-fluid img-thumbnail" src="data:image/png;base64, {{.Image}}" />
+			<div class="ms-3 col-sm-6">
+				QR content:<br/>
+				<code>{{.Content}}</code>
+			</div>
+		</div>
 		{{end}}
 	</div>
 
