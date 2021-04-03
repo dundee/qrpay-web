@@ -1,6 +1,7 @@
 package web
 
 import (
+	_ "embed"
 	"encoding/base64"
 	"html/template"
 	"log"
@@ -10,6 +11,9 @@ import (
 
 	"github.com/dundee/qrpay"
 )
+
+//go:embed "templates/index.html"
+var indexTemplate string
 
 func RunServer(addr string) {
 	http.Handle(
@@ -82,7 +86,7 @@ func QR(w http.ResponseWriter, req *http.Request) {
 		}
 	}
 
-	var templ = template.Must(template.ParseFiles("web/templates/index.html"))
+	var templ = template.Must(template.New("index").Parse(indexTemplate))
 	err = templ.Execute(
 		w,
 		TemplateVars{
