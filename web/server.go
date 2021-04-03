@@ -8,8 +8,7 @@ import (
 	"net/url"
 	"strings"
 
-	payment "github.com/dundee/go-qrcode-payment"
-	common "github.com/dundee/go-qrcode-payment/common"
+	"github.com/dundee/qrpay"
 )
 
 func RunServer(addr string) {
@@ -49,11 +48,11 @@ func QR(w http.ResponseWriter, req *http.Request) {
 
 	if req.FormValue("iban") != "" {
 
-		var p common.Payment
+		var p qrpay.Payment
 		if req.FormValue("format") == "spayd" {
-			p = payment.NewSpaydPayment()
+			p = qrpay.NewSpaydPayment()
 		} else {
-			p = payment.NewEpcPayment()
+			p = qrpay.NewEpcPayment()
 		}
 
 		p.SetIBAN(req.FormValue("iban"))
@@ -74,7 +73,7 @@ func QR(w http.ResponseWriter, req *http.Request) {
 			if err != nil {
 				errors["generate-string"] = err
 			} else {
-				image, err := payment.GetQRCodeImage(p)
+				image, err := qrpay.GetQRCodeImage(p)
 				if err != nil {
 					errors["generate-qr"] = err
 				}

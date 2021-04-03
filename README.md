@@ -7,13 +7,13 @@ Supports [Short Payment Descriptor](https://en.wikipedia.org/wiki/Short_Payment_
 
 ## Instalation
 
-    go get -u github.com/dundee/gdu/qrpay
+    go get -u github.com/dundee/gdu/qrpay-web
 
 ## Usage
 
 1. Start the QR code generator:
 
-    $ ./qrpay
+    $ ./qrpay-web
     2021/04/02 00:41:01 using embed mode
     2021/04/02 00:41:01 Listening on 127.0.0.1:8080
 

@@ -1,4 +1,4 @@
-NAME := qrpay
+NAME := qrpay-web
 PACKAGE := github.com/dundee/$(NAME)
 VERSION := $(shell git describe --tags 2>/dev/null)
 GOFLAGS ?= -buildmode=pie -trimpath -mod=readonly -modcacherw
