@@ -5,6 +5,10 @@ Standalone web server generating payment QR codes.
 Supports [Short Payment Descriptor](https://en.wikipedia.org/wiki/Short_Payment_Descriptor) and
 [EPC QR Code](https://en.wikipedia.org/wiki/EPC_QR_code) (SEPA) format.
 
+## Demo app
+
+https://go-qrpay.com/
+
 ## Instalation
 
     go get -u github.com/dundee/gdu/qrpay-web
